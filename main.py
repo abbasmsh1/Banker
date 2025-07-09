@@ -1,4 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base, User
@@ -23,6 +26,18 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 SECRET_KEY = "your_secret_key"  # Change this in production
 ALGORITHM = "HS256"
@@ -88,7 +103,7 @@ def create_access_token(data: dict, expires_delta: dt.timedelta = None):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Banking API"}
+    return RedirectResponse(url="/static/login.html")
 
 @app.post("/register", response_model=Token)
 def register(user: UserCreate, db: Session = Depends(get_db)):

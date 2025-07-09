@@ -1,6 +1,6 @@
 # 🏦 Banker App
 
-A modern banking application built with FastAPI (backend) and React (frontend) that allows users to manage accounts, transfer money, and handle banking operations.
+A modern banking application built with FastAPI (backend) and vanilla JavaScript (frontend) that allows users to manage accounts, transfer money, and handle banking operations.
 
 ## Features
 
@@ -8,7 +8,7 @@ A modern banking application built with FastAPI (backend) and React (frontend) t
 - **Account Management**: View account details, balance, IBAN, and crypto address
 - **Money Transfer**: Send money using IBAN or crypto address
 - **Beneficiary Management**: Add and manage beneficiaries
-- **Transaction History**: View daily/weekly expense logs
+- **Transaction History**: View recent transactions
 - **Secure Authentication**: JWT-based login system
 
 ### Admin Features
@@ -29,20 +29,16 @@ A modern banking application built with FastAPI (backend) and React (frontend) t
 - **Passlib**: Password hashing
 
 ### Frontend
-- **React**: Modern JavaScript framework
-- **React Router**: Client-side routing
-- **Axios**: HTTP client
-- **React Toastify**: Notifications
-- **CSS3**: Modern styling with gradients and animations
+- **Vanilla JavaScript**: No framework dependencies
+- **HTML5/CSS3**: Modern styling with gradients and animations
+- **Fetch API**: HTTP requests to backend
 
 ## Setup Instructions
 
 ### Prerequisites
 - Python 3.8+
-- Node.js 16+
-- npm or yarn
 
-### Backend Setup
+### Installation
 
 1. **Clone the repository and navigate to the project directory**
    ```bash
@@ -60,7 +56,7 @@ A modern banking application built with FastAPI (backend) and React (frontend) t
 
 3. **Install Python dependencies**
    ```bash
-   pip install fastapi uvicorn sqlalchemy pydantic passlib bcrypt PyJWT
+   pip install fastapi uvicorn sqlalchemy pydantic passlib bcrypt PyJWT python-multipart
    ```
 
 4. **Create admin user**
@@ -71,30 +67,20 @@ A modern banking application built with FastAPI (backend) and React (frontend) t
    - Username: `admin`
    - Password: `adminpassword`
 
-5. **Start the backend server**
+5. **Start the application**
    ```bash
    uvicorn main:app --reload
    ```
-   The API will be available at `http://localhost:8000`
-
-### Frontend Setup
-
-1. **Install Node.js dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Start the React development server**
-   ```bash
-   npm start
-   ```
-   The frontend will be available at `http://localhost:3000`
+   The application will be available at `http://localhost:8000`
 
 ## Usage
 
+### Access the Application
+1. Open your browser and go to `http://localhost:8000`
+2. You'll be automatically redirected to the login page
+
 ### Admin Login
-1. Go to `http://localhost:3000`
-2. Login with admin credentials:
+1. Login with admin credentials:
    - Username: `admin`
    - Password: `adminpassword`
 
@@ -130,39 +116,27 @@ A modern banking application built with FastAPI (backend) and React (frontend) t
 - `GET /admin/total_money` - Get total bank money
 - `GET /admin/total_transferred_today` - Get daily transfer total
 
-## Database Schema
+## Project Structure
 
-### Users
-- `id`: Primary key
-- `username`: Unique username
-- `password`: Hashed password
-- `is_admin`: Admin flag
-
-### Accounts
-- `id`: Primary key
-- `user_id`: Foreign key to users
-- `name`: Account holder name
-- `father_name`: Father's name
-- `phone_number`: Contact number
-- `iban`: Auto-generated IBAN (AB + 12 digits)
-- `address`: Auto-generated crypto address (CR + 32 chars)
-- `balance`: Account balance
-
-### Transactions
-- `id`: Primary key
-- `account_id`: Foreign key to accounts
-- `type`: 'send' or 'receive'
-- `amount`: Transaction amount
-- `timestamp`: Transaction time
-- `to_iban`: Recipient IBAN
-- `to_address`: Recipient address
-
-### Beneficiaries
-- `id`: Primary key
-- `user_id`: Foreign key to users
-- `name`: Beneficiary name
-- `iban`: Beneficiary IBAN
-- `address`: Beneficiary address
+```
+Banker/
+├── main.py                 # FastAPI application
+├── models.py              # SQLAlchemy models
+├── create_admin.py        # Admin user creation script
+├── bank.db               # SQLite database
+├── static/               # Frontend files
+│   ├── login.html        # Login page
+│   ├── register.html     # Registration page
+│   ├── user_dashboard.html  # User dashboard
+│   ├── admin_dashboard.html # Admin dashboard
+│   ├── style.css         # Shared styles
+│   └── js/               # JavaScript files
+│       ├── common.js     # Shared utilities
+│       ├── auth.js       # Authentication logic
+│       ├── user.js       # User dashboard logic
+│       └── admin.js      # Admin dashboard logic
+└── README.md
+```
 
 ## Security Features
 
@@ -183,7 +157,7 @@ Change `DATABASE_URL` in `main.py` to use different databases:
 - MySQL: `mysql://user:password@localhost/dbname`
 
 ### Styling
-Modify `src/index.css` to customize the application appearance.
+Modify `static/style.css` to customize the application appearance.
 
 ## Troubleshooting
 
@@ -196,7 +170,7 @@ Modify `src/index.css` to customize the application appearance.
    - Delete `bank.db` and restart the application to recreate the database
 
 3. **CORS errors**
-   - Ensure the backend is running on `localhost:8000` and frontend on `localhost:3000`
+   - The application includes CORS middleware, but ensure your browser allows local requests
 
 4. **Authentication issues**
    - Clear browser localStorage and re-login

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Banker App</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav>
+    <a href="/static/login.html">Login</a>
+  </nav>
+  <div class="container">
+    <h1>Register</h1>
+    <form id="registerForm">
+      <input type="text" id="regUsername" placeholder="Username" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <input type="password" id="regConfirm" placeholder="Confirm Password" required>
+      <button type="submit">Register</button>
+      <div id="registerError" class="error" style="display:none;"></div>
+      <div id="registerSuccess" class="success" style="display:none;"></div>
+    </form>
+  </div>
+  <script src="/static/js/auth.js"></script>
+</body>
+</html> 
